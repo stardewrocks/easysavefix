@@ -1,14 +1,14 @@
 <script lang="ts">
     import type { ChangeEventHandler } from "svelte/elements";
 
-
+    import readFileContent from "$lib/readFileContent";
 
     let saveFiles: Array<File> = [] as any;
     let fileContent: string = ''
 
     let saveFileUploadError: string = '';
 
-    const handleUploadedFile: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const handleUploadedFile: ChangeEventHandler<HTMLInputElement> = async (e) => {
         const { files } = e.currentTarget
         if (files?.length == 0 || !files) return false
         
@@ -20,13 +20,16 @@
             || file.size < 1e5 /*100,000*/ 
         ) {
             saveFileUploadError = `${file.name} is not a valid Stardew Valley save file!`
-            return false;
+            // return false;
+            return;
         } else {
             saveFileUploadError = ''
         }
 
         console.log(file)
-        
+        const content = await readFileContent(file)
+        console.log(content.length)
+        console.log(content.replace(/<userID>\d+<\/userID>/g, '<userID />').length)
 
 
     }
