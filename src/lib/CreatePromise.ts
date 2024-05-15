@@ -1,6 +1,5 @@
 type re<T> = (value: T | PromiseLike<T>) => void
 type returnValue<T> = [Promise<T>, re<T>, re<T>]
-type CreatePromise<T> = () => returnValue<T>
 
 function create<T>(): returnValue<T> {
     let resolve: re<T> = null as unknown as re<T>
