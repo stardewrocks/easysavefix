@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { ChangeEventHandler } from "svelte/elements";
     import readFileContent from "$lib/readFileContent";
-    import { page } from '$app/stores';
     import { get } from "svelte/store";
+    import { onMount } from "svelte";
 
     let createMode = false
 
@@ -12,16 +12,20 @@
     let saveFileUploadError: string = '';
     let saveFileDownloadLink: string = '';
 
-    const params = new URLSearchParams(get(page).url.search);
+    let params = null as any
 
-    let beforeRe = params.get('before') ?? ''
-    let afterRe = params.get('after') ?? ''
-    let fixText = params.get('title') ?? ''
+    onMount(() => {
+        params = new URLSearchParams(window.location.search);
+    })
+
+    let beforeRe = params?.get('before') ?? ''
+    let afterRe = params?.get('after') ?? ''
+    let fixText = params?.get('title') ?? ''
 
 
     
     if (!beforeRe || !afterRe || !fixText) createMode = true
-    if (params.has('creation')) createMode = true
+    if (params?.has('creation')) createMode = true
 
     const handleUploadedFile: ChangeEventHandler<HTMLInputElement> = async (e) => {
         const { files } = e.currentTarget
