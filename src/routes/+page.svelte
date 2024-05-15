@@ -14,18 +14,22 @@
 
     let params = null as any
 
+    
+    let beforeRe =  ''
+    let afterRe =  ''
+    let fixText =  ''
+    
+    
     onMount(() => {
         params = new URLSearchParams(window.location.search);
+        beforeRe = params?.get('before') ?? ''
+        afterRe = params?.get('after') ?? ''
+        fixText = params?.get('title') ?? ''
+
+        if (!beforeRe || !afterRe || !fixText) createMode = true
+        if (params?.has('creation')) createMode = true
     })
-
-    let beforeRe = params?.get('before') ?? ''
-    let afterRe = params?.get('after') ?? ''
-    let fixText = params?.get('title') ?? ''
-
-
     
-    if (!beforeRe || !afterRe || !fixText) createMode = true
-    if (params?.has('creation')) createMode = true
 
     const handleUploadedFile: ChangeEventHandler<HTMLInputElement> = async (e) => {
         const { files } = e.currentTarget
