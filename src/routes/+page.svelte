@@ -7,7 +7,6 @@
     let createMode = false
 
     let saveFiles: Array<File> = [] as any;
-    let fileContent: string = ''
 
     let saveFileUploadError: string = '';
     let saveFileDownloadLink: string = '';
